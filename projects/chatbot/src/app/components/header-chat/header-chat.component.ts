@@ -7,7 +7,7 @@ import { Component, EventEmitter, Output, ViewEncapsulation } from '@angular/cor
   encapsulation: ViewEncapsulation.Emulated
 })
 export class HeaderChatComponent {
-  expandStatus: boolean = false;
+  expandStatus: boolean = true;
   @Output() expand = new EventEmitter<boolean>();
 
 

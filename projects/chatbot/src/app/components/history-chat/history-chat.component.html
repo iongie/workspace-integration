@@ -1,106 +1,75 @@
 <div class="flex gap-4 flex-col p-4 max-h-96 overflow-y-auto">
-    <div class="flex items-start gap-2.5">
-        <img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+    <ng-container *ngFor="let history of history">
+        <div class="flex items-start gap-2.5">
+            <img class="w-8 h-8 rounded-full"
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
+            <div
+                class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white">User</span>
+                </div>
+                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{history.question}}</p>
             </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
         </div>
-    </div>
 
-    <div class="flex items-start gap-2.5">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-            </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-        </div><img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-    </div>
-    <div class="flex items-start gap-2.5">
-        <img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-            </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+        <div class="flex items-start gap-2.5">
+            <div
+                class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white">Boti</span>
+                </div>
+                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{history.answer}}</p>
+            </div><img class="w-8 h-8 rounded-full"
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
         </div>
-    </div>
+    </ng-container>
 
-    <div class="flex items-start gap-2.5">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+
+    <ng-container *ngIf="processChat">
+        <div class="flex items-start gap-2.5">
+            <img class="w-8 h-8 rounded-full"
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
+            <div
+                class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <span class="text-sm font-semibold text-gray-900 dark:text-white">User</span>
+                </div>
+                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{prompt}}</p>
             </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-        </div><img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-    </div>
-    <div class="flex items-start gap-2.5">
-        <img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-            </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
         </div>
-    </div>
 
-    <div class="flex items-start gap-2.5">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+        <div class="flex items-start gap-2.5">
+            <div class="flex flex-col w-full leading-1.5 p-4 rounded-e-xl rounded-es-xl">
+                <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                    <div
+                        class="px-3 py-1 text-xs font-medium leading-none text-center text-blue-800 bg-blue-200 rounded-full animate-pulse dark:bg-blue-900 dark:text-blue-200">
+                        Mohon Tunggu, sedang di proses ...</div>
+                </div>
             </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-        </div><img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-    </div>
-    <div class="flex items-start gap-2.5">
-        <img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
-            </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
+            <img class="w-8 h-8 rounded-full"
+                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
         </div>
-    </div>
+    </ng-container>
 
-    <div class="flex items-start gap-2.5">
-        <div
-            class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-            <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                <span class="text-sm font-semibold text-gray-900 dark:text-white">Bonnie Green</span>
-                <span class="text-sm font-normal text-gray-500 dark:text-gray-400">11:46</span>
+
+    <ng-container *ngIf="errorChat">
+        <div class="flex flex-row items-center gap-2.5">
+            <button type="button"
+                (click)="resend()"
+                class="inline-flex justify-center p-2 text-gray-500 rounded-lg 
+                cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400
+                dark:hover:text-white dark:hover:bg-gray-600">
+                <span class="material-icons-round">refresh</span>
+                <span class="sr-only">refresh proses</span>
+            </button>
+            <div class="flex flex-row gap-1 items-center w-full leading-1.5 p-4 border-red-800 
+            bg-red-200 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                <span class="material-icons-round">warning</span>
+                <p class="text-sm font-medium py-2.5 text-gray-900 dark:text-white">Mohon maaf terjadi gangguan.
+                    Silahkan
+                    coba kembali</p>
             </div>
-            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">That's awesome. I think our users will
-                really appreciate the improvements.</p>
-            <span class="text-sm font-normal text-gray-500 dark:text-gray-400">Delivered</span>
-        </div><img class="w-8 h-8 rounded-full" src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-    </div>
+        </div>
+    </ng-container>
+
 </div>
