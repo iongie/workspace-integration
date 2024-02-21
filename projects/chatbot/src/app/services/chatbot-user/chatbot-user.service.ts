@@ -6,16 +6,16 @@ import { ChatbotUser, defaultChatbotUser } from './chatbot-user.interface';
   providedIn: 'root'
 })
 export class ChatbotUserService {
-  userChabot =   new BehaviorSubject<ChatbotUser>(defaultChatbotUser)
+  userChabotState =   new BehaviorSubject<ChatbotUser>(defaultChatbotUser)
   constructor() { }
 
-  getUserChatbot = this.userChabot.asObservable()
+  getUserChatbot = this.userChabotState.asObservable()
 
   updateUserChatbot(newUserChatbot: ChatbotUser){
-    this.userChabot.next(newUserChatbot)
+    this.userChabotState.next(newUserChatbot)
   }
 
   clearUserChatbot(){
-    this.userChabot.next(defaultChatbotUser)
+    this.userChabotState.next(defaultChatbotUser)
   }
 }

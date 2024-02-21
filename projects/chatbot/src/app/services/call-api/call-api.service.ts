@@ -46,5 +46,16 @@ export class CallApiService {
       })
     )
   }
+
+  uploadFile(param: any, data: any, apiKey: string) {
+    return this.http.post(environment.api + param, data, {
+      headers: new HttpHeaders()
+        .set('x-api-key', apiKey)
+    }).pipe(
+      catchError((error) => {
+        return throwError(() => error);
+      })
+    )
+  }
   
 }

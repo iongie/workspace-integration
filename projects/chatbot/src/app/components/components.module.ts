@@ -3,6 +3,7 @@ import { CommonModule } from '@angular/common';
 import { HistoryChatComponent } from './history-chat/history-chat.component';
 import { InputChatComponent } from './input-chat/input-chat.component';
 import { HeaderChatComponent } from './header-chat/header-chat.component';
+import { ReactiveFormsModule } from '@angular/forms';
 
 
 
@@ -13,7 +14,8 @@ import { HeaderChatComponent } from './header-chat/header-chat.component';
     HeaderChatComponent
   ],
   imports: [
-    CommonModule
+    CommonModule,
+    ReactiveFormsModule
   ],
   exports:[
     HistoryChatComponent,

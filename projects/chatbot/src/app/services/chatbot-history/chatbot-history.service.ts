@@ -6,7 +6,7 @@ import { ChatbotHistory, defaultChatbotHistory } from './chatbot-history.interfa
   providedIn: 'root'
 })
 export class ChatbotHistoryService {
-  historyChabot =   new BehaviorSubject<ChatbotHistory[]>([])
+  historyChabot =   new BehaviorSubject<ChatbotHistory[]>([]);
   constructor() { }
 
   getHistoryChatbot = this.historyChabot.asObservable()

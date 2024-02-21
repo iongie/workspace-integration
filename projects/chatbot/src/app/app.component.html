@@ -1,5 +1,5 @@
 <ng-container>
-  <button type="button" (click)="chatWithBot()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
+  <button type="button" (click)="summarizationSurat()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
     focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
     flex items-center gap-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 outline-none">
     Chat with bot
@@ -9,8 +9,7 @@
     <div class="fixed bottom-0 w-1/3 right-1 border-slate-300 border-1 rounded-t-lg">
       <chatbot-header-chat (expand)="expandAction($event)"></chatbot-header-chat>
       <ng-container *ngIf="expandStatus">
-        <chatbot-history-chat (resendEvent)="resend($event)" [promptType]="promptType" [promptId]="promptId" 
-          [promptUserId]="promptId" [prompt]="prompt" [processChat]="processChat" [errorChat]="errorChat"></chatbot-history-chat>
+        <chatbot-history-chat (resendEvent)="resendSummarizationSurat($event)"></chatbot-history-chat>
         <chatbot-input-chat></chatbot-input-chat>
       </ng-container>
     </div>

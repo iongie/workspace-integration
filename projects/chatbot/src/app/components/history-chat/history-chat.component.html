@@ -1,16 +1,41 @@
 <div class="flex gap-4 flex-col p-4 max-h-96 overflow-y-auto">
     <ng-container *ngFor="let history of history">
-        <div class="flex items-start gap-2.5">
-            <img class="w-8 h-8 rounded-full"
-                src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
-            <div
-                class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
-                <div class="flex items-center space-x-2 rtl:space-x-reverse">
-                    <span class="text-sm font-semibold text-gray-900 dark:text-white">User</span>
+        <ng-container *ngIf="history.type ==='text'">
+            <div class="flex items-start gap-2.5">
+                <img class="w-8 h-8 rounded-full"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp" alt="Jese image">
+                <div
+                    class="flex flex-col w-full leading-1.5 p-4 border-gray-200 bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                    <div class="flex items-center space-x-2 rtl:space-x-reverse">
+                        <span class="text-sm font-semibold text-gray-900 dark:text-white">User</span>
+                    </div>
+                    <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{history.question}}</p>
                 </div>
-                <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white">{{history.question}}</p>
             </div>
-        </div>
+        </ng-container>
+        
+        <ng-container *ngIf="history.type ==='file'">
+            <div class="flex flex-row items-start gap-2.5">
+                <img class="w-8 h-8 rounded-full"
+                    src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava1-bg.webp"
+                    alt="Jese image">
+                <div class="flex flex-col gap-2.5 items-center w-full leading-1.5 p-4 border-gray-200 
+                bg-gray-100 rounded-e-xl rounded-es-xl dark:bg-gray-700">
+                    <div class="flex items-center self-start space-x-2 rtl:space-x-reverse">
+                        <span class="text-sm font-semibold text-gray-900 dark:text-white">User</span>
+                    </div>
+                    <div class="flex flex-row gap-2 w-full">
+                        <img class="h-auto max-w-20 rounded-lg "
+                            src="http://localhost:3100/image/b254b9aadc20e08ebdfa9acc13bd15a1/1708481013253-Flyer-All-UBL-Pasca-Ganjil-23_24_compressed.png"
+                            alt="image description">
+                        <div class="flex flex-col">
+                            <p class="text-sm font-normal py-2.5 text-gray-900 dark:text-white text-wrap">{{history.name}}</p>
+                            <p class="text-xs font-normal py-2.5 text-gray-900 dark:text-white">PDF documents</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </ng-container>
 
         <div class="flex items-start gap-2.5">
             <div
@@ -54,9 +79,7 @@
 
     <ng-container *ngIf="errorChat">
         <div class="flex flex-row items-center gap-2.5">
-            <button type="button"
-                (click)="resend()"
-                class="inline-flex justify-center p-2 text-gray-500 rounded-lg 
+            <button type="button" (click)="resend()" class="inline-flex justify-center p-2 text-gray-500 rounded-lg 
                 cursor-pointer hover:text-gray-900 hover:bg-gray-100 dark:text-gray-400
                 dark:hover:text-white dark:hover:bg-gray-600">
                 <span class="material-icons-round">refresh</span>
@@ -71,5 +94,4 @@
             </div>
         </div>
     </ng-container>
-
 </div>
