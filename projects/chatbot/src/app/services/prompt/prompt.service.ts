@@ -36,7 +36,6 @@ export class PromptService {
   getProcessChatbot = this.processChatbotState.asObservable()
 
   updateProcessChatbot(newDataProcessChatbot: boolean) {
-    console.log('newDataProcessChatbot', newDataProcessChatbot);
     this.processChatbotState.next(newDataProcessChatbot)
   }
 
@@ -47,7 +46,6 @@ export class PromptService {
   getErrorChatbot = this.errorChatbotState.asObservable()
 
   updateErrorChatbot(newDataErrorChatbot: boolean) {
-    console.log('newDataErrorChatbot', newDataErrorChatbot);
     this.errorChatbotState.next(newDataErrorChatbot)
   }
 

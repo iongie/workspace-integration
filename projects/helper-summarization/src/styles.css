@@ -1,0 +1,10 @@
+/* You can add global styles to this file, and also import other style files */
+
+@import 'material-icons/iconfont/material-icons.css';
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*{
+    /* outline: 1px solid red; */
+}

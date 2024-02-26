@@ -40,7 +40,6 @@ export class HistoryChatComponent implements OnInit, OnDestroy {
         {
           next: (res: any) => {
             this.history = res
-            console.log('history-chat', this.history);
           },
           error: (e: any) => {
             console.log('error history', e)
@@ -70,9 +69,6 @@ export class HistoryChatComponent implements OnInit, OnDestroy {
     ).subscribe(
       {
         next: ([prompt, errorChat, processChat]: any) => {
-          console.log('History Status View Error Chat', errorChat);
-          console.log('History Status View Process Chat', processChat);
-          console.log('History Prompt', prompt);
           this.prompt = prompt;
           this.errorChat = errorChat;
           this.processChat = processChat;

@@ -40,23 +40,6 @@ export class AppComponent implements OnInit, OnDestroy {
     this.savePromptToState();
     this.saveUserToState();
     this.viewHistoryChat();
-
-    // combineLatest([
-    //   this.promptServ.getErrorChatbot,
-    //   this.promptServ.getProcessChatbot
-    // ]).pipe(
-    //   takeUntil(this.destroy)
-    // ).subscribe(
-    //   {
-    //     next: ([errorChat, processChat]: any) => {
-    //       console.log('Status View Error Chat', errorChat);
-    //       console.log('Status View Process Chat', processChat);
-    //     },
-    //     error: (e: any) => {
-    //       console.log(e)
-    //     }
-    //   }
-    // )
   }
 
   ngOnDestroy(): void {
