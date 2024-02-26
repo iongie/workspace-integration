@@ -1,12 +1,13 @@
 import { Injectable } from '@angular/core';
 import { BehaviorSubject } from 'rxjs';
 import { Prompt, defaultPrompt } from '../../app.interface';
+import { ChatPrompt, defaultChatPrompt } from '../chatbot-history/chatbot-history.interface';
 
 @Injectable({
   providedIn: 'root'
 })
 export class PromptService {
-  promptState = new BehaviorSubject<string>("")
+  promptState = new BehaviorSubject<ChatPrompt>(defaultChatPrompt)
   promptSettingState = new BehaviorSubject<Prompt>(defaultPrompt)
   processChatbotState = new BehaviorSubject<boolean>(false);
   errorChatbotState = new BehaviorSubject<boolean>(false);
@@ -14,41 +15,43 @@ export class PromptService {
 
   getPrompt = this.promptState.asObservable()
 
-  updatePrompt(newDataPrompt: string){
+  updatePrompt(newDataPrompt: ChatPrompt) {
     this.promptState.next(newDataPrompt)
   }
 
-  clearPrompt(){
-    this.promptState.next("")
+  clearPrompt() {
+    this.promptState.next(defaultChatPrompt)
   }
-  
+
   getSettingPrompt = this.promptSettingState.asObservable()
 
-  updatePromptSetting(newDataPromptSetting: Prompt){
+  updatePromptSetting(newDataPromptSetting: Prompt) {
     this.promptSettingState.next(newDataPromptSetting)
   }
 
-  clearPromptSetting(){
+  clearPromptSetting() {
     this.promptSettingState.next(defaultPrompt)
   }
 
   getProcessChatbot = this.processChatbotState.asObservable()
 
-  updateProcessChatbot(newDataProcessChatbot: boolean){
+  updateProcessChatbot(newDataProcessChatbot: boolean) {
+    console.log('newDataProcessChatbot', newDataProcessChatbot);
     this.processChatbotState.next(newDataProcessChatbot)
   }
 
-  clearProcessChatbot(){
+  clearProcessChatbot() {
     this.processChatbotState.next(false)
   }
 
   getErrorChatbot = this.errorChatbotState.asObservable()
 
-  updateErrorChatbot(newDataErrorChatbot: boolean){
+  updateErrorChatbot(newDataErrorChatbot: boolean) {
+    console.log('newDataErrorChatbot', newDataErrorChatbot);
     this.errorChatbotState.next(newDataErrorChatbot)
   }
 
-  clearErrorChatbot(){
+  clearErrorChatbot() {
     this.errorChatbotState.next(false)
-  }  
+  }
 }

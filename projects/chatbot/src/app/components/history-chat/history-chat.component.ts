@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnDestroy, OnInit, Output, ViewEncapsulation } from '@angular/core';
-import { Subject, combineLatest, takeUntil } from 'rxjs';
-import { ChatbotHistory } from '../../services/chatbot-history/chatbot-history.interface';
+import { EMPTY, Subject, combineLatest, takeUntil, tap } from 'rxjs';
+import { ChatPrompt, ChatbotHistory, defaultChatPrompt } from '../../services/chatbot-history/chatbot-history.interface';
 import { ChatbotHistoryService } from '../../services/chatbot-history/chatbot-history.service';
 import { PromptService } from '../../services/prompt/prompt.service';
 
@@ -13,7 +13,8 @@ import { PromptService } from '../../services/prompt/prompt.service';
 export class HistoryChatComponent implements OnInit, OnDestroy {
   private destroy: Subject<void> = new Subject<void>();
   history: ChatbotHistory[] = [];
-  prompt: string = '';
+  prompt: ChatPrompt = defaultChatPrompt;
+  name_file: string = "";
   processChat: boolean = false;
   errorChat: boolean = false;
   @Output() resendEvent = new EventEmitter<boolean>();
@@ -38,21 +39,7 @@ export class HistoryChatComponent implements OnInit, OnDestroy {
       ).subscribe(
         {
           next: (res: any) => {
-            this.history = res.map((res: any) => {
-              const url = res.question!
-              const filenameWithExtension = url.split('/').pop()?.split('.')[0] || "";
-              const filenameWithoutExtension = filenameWithExtension.substring(filenameWithExtension.indexOf('-') + 1);
-
-
-              return {
-                uuid: res.uuid,
-                question: res.question,
-                answer: res.answer,
-                moment: res.moment,
-                type: res.type,
-                name: filenameWithoutExtension
-              }
-            })
+            this.history = res
             console.log('history-chat', this.history);
           },
           error: (e: any) => {
@@ -68,16 +55,28 @@ export class HistoryChatComponent implements OnInit, OnDestroy {
       this.promptServ.getErrorChatbot,
       this.promptServ.getProcessChatbot
     ]).pipe(
+      tap(([prompt, errorChat, processChat]: any) => {
+        // process mengambil nama file saja jika type prompt adalah file
+        if (prompt.type === 'file') {
+          const url = prompt.prompt
+          const filenameWithExtension = url.split('/').pop()?.split('.')[0] || "";
+          // const filenameWithoutExtension = filenameWithExtension.substring(filenameWithExtension.indexOf('-') + 1);
+          this.name_file = filenameWithExtension
+        } else {
+          EMPTY
+        }
+      }),
       takeUntil(this.destroy)
     ).subscribe(
       {
         next: ([prompt, errorChat, processChat]: any) => {
-          console.log('prompt', prompt);
-          console.log('error', errorChat);
-          console.log('process', processChat);
-          this.prompt = prompt
-          this.errorChat = errorChat,
-          this.processChat = processChat
+          console.log('History Status View Error Chat', errorChat);
+          console.log('History Status View Process Chat', processChat);
+          console.log('History Prompt', prompt);
+          this.prompt = prompt;
+          this.errorChat = errorChat;
+          this.processChat = processChat;
+          
         },
         error: (e: any) => {
           console.log(e)

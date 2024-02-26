@@ -30,8 +30,8 @@ interface InputChat {
 }
 
 const defaultInputChat: InputChat = {
-    prompt: null,
-    type: null
+    prompt: "",
+    type: "text"
 }
 
 export {

@@ -3,7 +3,7 @@ import { CallApiService } from './services/call-api/call-api.service';
 import { EMPTY, Subject, combineLatest, of, switchMap, take, takeUntil, tap } from 'rxjs';
 import { ChatbotUserService } from './services/chatbot-user/chatbot-user.service';
 import { ChatbotHistoryService } from './services/chatbot-history/chatbot-history.service';
-import { ChatbotHistory, defaultChatbotHistory } from './services/chatbot-history/chatbot-history.interface';
+import { ChatbotHistory, defaultChatPrompt, defaultChatbotHistory } from './services/chatbot-history/chatbot-history.interface';
 import { PromptService } from './services/prompt/prompt.service';
 import { defaultChatbotUser } from './services/chatbot-user/chatbot-user.interface';
 
@@ -40,6 +40,23 @@ export class AppComponent implements OnInit, OnDestroy {
     this.savePromptToState();
     this.saveUserToState();
     this.viewHistoryChat();
+
+    // combineLatest([
+    //   this.promptServ.getErrorChatbot,
+    //   this.promptServ.getProcessChatbot
+    // ]).pipe(
+    //   takeUntil(this.destroy)
+    // ).subscribe(
+    //   {
+    //     next: ([errorChat, processChat]: any) => {
+    //       console.log('Status View Error Chat', errorChat);
+    //       console.log('Status View Process Chat', processChat);
+    //     },
+    //     error: (e: any) => {
+    //       console.log(e)
+    //     }
+    //   }
+    // )
   }
 
   ngOnDestroy(): void {
@@ -54,7 +71,10 @@ export class AppComponent implements OnInit, OnDestroy {
       userId: document.getElementById('chatbot')!.getAttribute('prompt-user-id')!
     })
 
-    this.promptServ.updatePrompt(document.getElementById('chatbot')!.getAttribute('prompt')!);
+    this.promptServ.updatePrompt({
+      prompt: document.getElementById('chatbot')!.getAttribute('prompt')!,
+      type: document.getElementById('chatbot')!.getAttribute('prompt-type')!
+    });
   }
 
   saveUserToState() {
@@ -100,15 +120,18 @@ export class AppComponent implements OnInit, OnDestroy {
       of(this.chatbot)
     ]).pipe(
       tap(([user, chatbot]) => {
-        this.chatbot = chatbot ? false : true; // membuka chatbot
+        // membuka chatbot
+        this.chatbot = chatbot ? false : true;
       }),
       switchMap(([user, chatbot]) => {
+        // manggil data history dan user api key
         return combineLatest([
           this.callApi.getChat('api/assistant', user.apiKey!, this.promptUserId, this.promptId),
           of(user)
         ])
-      }),// get data history dan user api key
+      }),
       tap(([history, user]: any) => {
+        // start process generate ai and enable view loading 
         if (history.data.length !== 0) {
           let historyChatbot = history.data.filter((val: any) => val.question == this.promptSummarizationSurat)
           this.promptServ.updateProcessChatbot(historyChatbot.length === 0 && true)
@@ -119,28 +142,39 @@ export class AppComponent implements OnInit, OnDestroy {
       switchMap(([history, user]: any) => {
         // Proses generate AI
         if (history.data.length !== 0) {
+          //kondisi jika history tidak kosong
           let historyChatbot = history.data.filter((val: any) => val.question == this.promptSummarizationSurat)
           return historyChatbot.length === 0
             ? combineLatest([this.callApi.postChat('api/assistant', { prompt: this.promptSummarizationSurat, type: this.promptType }, user.apiKey, this.promptUserId, this.promptId), of(user)])
             : combineLatest([of(null), of(user)])
-        } else { //jika history  kosong
+        } else {
+          //kondisi jika history kosong
           return combineLatest([this.callApi.postChat('api/assistant', { prompt: this.promptSummarizationSurat, type: this.promptType }, user.apiKey, this.promptUserId, this.promptId), of(user)])
         }
       }),
-      switchMap(([sendChat, user]: any) => this.callApi.getChat('api/assistant', user.apiKey, this.promptUserId, this.promptId)),
-      tap((res: any) => this.chatbotHistoryServ.updateHistoryChatbot(res.data)),
+      switchMap(([sendChat, user]: any) => {
+        // manggil data history
+        return this.callApi.getChat('api/assistant', user.apiKey, this.promptUserId, this.promptId)
+      }),
+      tap((res: any) => {
+        // simpan data history chat
+        this.chatbotHistoryServ.updateHistoryChatbot(res.data)
+      }),
       tap(() => {
-        this.promptServ.updateProcessChatbot(false)
+        // stop process generate ai and disable view loading di history component
+        this.promptServ.clearProcessChatbot()
       }),
       takeUntil(this.destroy),
     ).subscribe(
       {
         next: (res: any) => {
-          console.log('send-chat', res);
+          // console.log('send-chat', res);
         },
         error: (e: any) => {
-          console.log('summarization surat', e)
-          this.promptServ.updateProcessChatbot(false);
+          // console.log('summarization surat', e)
+          // stop process generate ai and disable view loading  di history component
+          this.promptServ.clearProcessChatbot();
+          // enable view error di history component
           this.promptServ.updateErrorChatbot(true);
         }
       }
@@ -151,13 +185,19 @@ export class AppComponent implements OnInit, OnDestroy {
     if (!event) {
       this.chatbotUserServ.getUserChatbot
         .pipe(
+          tap(() => {
+            // disabled view error 
+            this.promptServ.updateErrorChatbot(false)
+          }),
           switchMap((user: any) => {
+            // manggil data history dan user api key
             return combineLatest([
               this.callApi.getChat('api/assistant', user.apiKey, this.promptUserId, this.promptId),
               of(user)
             ])
           }),
           tap(([history, user]: any) => {
+            // start process generate ai and enable view loading di history component
             if (history.data.length !== 0) {
               let historyChatbot = history.data.filter((val: any) => val.question == this.promptSummarizationSurat)
               this.promptServ.updateProcessChatbot(historyChatbot.length === 0 && true)
@@ -168,28 +208,39 @@ export class AppComponent implements OnInit, OnDestroy {
           switchMap(([history, user]: any) => {
             // Proses generate AI
             if (history.data.length !== 0) {
-              let historyChatbot = history.data.filter((val: any) => val.question == this.prompt)
+              // kondisi jika history tidak kosong
+              let historyChatbot = history.data.filter((val: any) => val.question == this.promptSummarizationSurat)
               return historyChatbot.length === 0
                 ? combineLatest([this.callApi.postChat('api/assistant', { prompt: this.promptSummarizationSurat, type: this.promptType }, user.apiKey, this.promptUserId, this.promptId), of(user)])
                 : combineLatest([of(null), of(user)])
-            } else { //jika history  kosong
+            } else {
+              // kondisi jika history kosong
               return combineLatest([this.callApi.postChat('api/assistant', { prompt: this.promptSummarizationSurat, type: this.promptType }, user.apiKey, this.promptUserId, this.promptId), of(user)])
             }
           }),
-          switchMap(([sendChat, user]) => this.callApi.getChat('api/assistant', user.apiKey, this.promptUserId, this.promptId)),
-          tap((res: any) => this.chatbotHistoryServ.updateHistoryChatbot(res.data)),
+          switchMap(([sendChat, user]: any) => {
+            // manggil data history
+            return this.callApi.getChat('api/assistant', user.apiKey, this.promptUserId, this.promptId)
+          }),
+          tap((res: any) => {
+            // simpan data history chat
+            this.chatbotHistoryServ.updateHistoryChatbot(res.data)
+          }),
           tap(() => {
-            this.promptServ.updateProcessChatbot(false)
+            // stop process generate ai and disable view loading di history component
+            this.promptServ.clearProcessChatbot()
           }),
           takeUntil(this.destroy),
         ).subscribe(
           {
             next: (res: any) => {
-              console.log('send-chat', res);
+              // console.log('resend-send-chat', res);
             },
             error: (e: any) => {
-              console.log(e)
-              this.promptServ.updateProcessChatbot(false);
+              // console.log('resend summarization surat', e)
+              // stop process generate ai and disable view loading di history component
+              this.promptServ.clearProcessChatbot();
+              // enable view error di history component
               this.promptServ.updateErrorChatbot(true);
             }
           }

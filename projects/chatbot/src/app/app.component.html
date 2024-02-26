@@ -1,12 +1,12 @@
 <ng-container>
-  <button type="button" (click)="summarizationSurat()" class="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none 
-    focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center 
-    flex items-center gap-2 dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 outline-none">
+  <button type="button" (click)="summarizationSurat()" class="text-white bg-yellow-700 hover:bg-yellow-800 focus:ring-4 focus:outline-none 
+    focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-3.5 text-center 
+    flex items-center gap-2 dark:bg-yellow-600 dark:hover:bg-yellow-700 dark:focus:ring-yellow-800 outline-none ">
     Chat with bot
     <span class="material-icons-round">chat_bubble</span>
   </button>
   <ng-container *ngIf="!chatbot">
-    <div class="fixed bottom-0 w-1/3 right-1 border-slate-300 border-1 rounded-t-lg">
+    <div class="fixed bottom-0 xl:w-1/3 sm:w-2/3 right-1 border-slate-300 border-1 rounded-t-lg bg-white dark:bg-black">
       <chatbot-header-chat (expand)="expandAction($event)"></chatbot-header-chat>
       <ng-container *ngIf="expandStatus">
         <chatbot-history-chat (resendEvent)="resendSummarizationSurat($event)"></chatbot-history-chat>
